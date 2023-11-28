@@ -8,10 +8,10 @@ namespace ex50
         static void Main(string[] args)
         {
             Zoo zoo = new Zoo();
-            int passedCages = 0;
-            int maxCages = 4;
+            int timeInZoo = 0;
+            int workTimeZoo = 6;
 
-            while (passedCages < maxCages)
+            while (timeInZoo < workTimeZoo)
             {
                 Console.WriteLine("Зоопарк\n");
 
@@ -24,7 +24,12 @@ namespace ex50
                 if (requiredCage != null)
                 {
                     requiredCage.ShowInfo();
-                    passedCages++;
+                    timeInZoo++;
+                }
+
+                if (timeInZoo == workTimeZoo)
+                {
+                    Console.WriteLine("\nЗоопарк закрывается...");
                 }
 
                 Console.ReadKey();
