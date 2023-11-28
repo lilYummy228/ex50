@@ -8,17 +8,15 @@ namespace ex50
         static void Main(string[] args)
         {
             Zoo zoo = new Zoo();
+
             int timeInZoo = 0;
             int workTimeZoo = 6;
 
             while (timeInZoo < workTimeZoo)
             {
                 Console.WriteLine("Зоопарк\n");
-
-                zoo.ShowAllCages();
-
+                zoo.ShowAllCages(); 
                 
-
                 zoo.TryFindCage(out Cage requiredCage);
 
                 if (requiredCage != null)
@@ -40,8 +38,8 @@ namespace ex50
 
     class Zoo
     {
-        private List<Cage> _cages;
         private List<Animal> _animals;
+        private List<Cage> _cages;
 
         public Zoo()
         {
