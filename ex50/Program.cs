@@ -8,8 +8,10 @@ namespace ex50
         static void Main(string[] args)
         {
             Zoo zoo = new Zoo();
+            int passedCages = 0;
+            int maxCages = 4;
 
-            while (true)
+            while (passedCages < maxCages)
             {
                 Console.WriteLine("Зоопарк\n");
 
@@ -19,7 +21,11 @@ namespace ex50
 
                 zoo.TryFindCage(Console.ReadLine(), out Cage requiredCage);
 
-                requiredCage?.ShowInfo();
+                if (requiredCage != null)
+                {
+                    requiredCage.ShowInfo();
+                    passedCages++;
+                }
 
                 Console.ReadKey();
                 Console.Clear();
