@@ -29,7 +29,7 @@ namespace ex50
 
                 if (timeInZoo == workTimeZoo)
                 {
-                    Console.WriteLine("\nЗоопарк закрывается...");
+                    Console.WriteLine("Зоопарк закрывается...");
                 }
 
                 Console.ReadKey();
