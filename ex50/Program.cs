@@ -17,9 +17,9 @@ namespace ex50
 
                 zoo.ShowAllCages();
 
-                Console.Write("Куда бы вы хотели сходить? ");
+                
 
-                zoo.TryFindCage(Console.ReadLine(), out Cage requiredCage);
+                zoo.TryFindCage(out Cage requiredCage);
 
                 if (requiredCage != null)
                 {
@@ -41,15 +41,24 @@ namespace ex50
     class Zoo
     {
         private List<Cage> _cages;
+        private List<Animal> _animals;
 
         public Zoo()
         {
+            _animals = new List<Animal>
+            {
+                new Animal("ЛЕВ", '♂', "РЁВ"),
+                new Animal("СЛОН", '♀', "ТРУБЛЕНИЕ"),
+                new Animal("ОРЕЛ", '♀', "ЗВОНКИЙ КЛЁКОТ"),
+                new Animal("ОЛЕНЬ", '♂', "МЫЧАНИЕ")
+            };
+
             _cages = new List<Cage>
             {
-                new Cage("ВОЛЬЕР СО ЛЬВАМИ", 4, "САМЦЫ", "РЁВ"),
-                new Cage("ВОЛЬЕР СО СЛОНАМИ", 10, "САМКИ И САМЦЫ", "ТРУБЛЕНИЕ"),
-                new Cage("ВОЛЬЕР С ОРЛАМИ", 6, "САМКИ", "ЗВОНКИЙ КЛЁКОТ"),
-                new Cage("ВОЛЬЕР С ОЛЕНЯМИ", 2,"САМЦЫ", "МЫЧАНИЕ"),
+                new Cage(_animals[0], 4),
+                new Cage(_animals[1], 10),
+                new Cage(_animals[2], 6),
+                new Cage(_animals[3], 2)
             };
         }
 
@@ -57,16 +66,18 @@ namespace ex50
         {
             foreach (Cage cage in _cages)
             {
-                Console.WriteLine($"|{cage.Name}|\n");
+                Console.WriteLine($"|{cage.Animal.Name}|\n");
             }
         }
 
-        public bool TryFindCage(string name, out Cage requiredCage)
+        public bool TryFindCage(out Cage requiredCage)
         {
+            Console.Write("Куда бы вы хотели сходить? ");
+            string name = Console.ReadLine();
 
             foreach (Cage cage in _cages)
             {
-                if (cage.Name == name.ToUpper())
+                if (cage.Animal.Name == name.ToUpper())
                 {
                     requiredCage = cage;
                     return true;
@@ -81,22 +92,32 @@ namespace ex50
 
     class Cage
     {
-        public Cage(string name, int count, string gender, string voice)
+        public Cage(Animal animal, int count)
+        {
+            Animal = animal;
+            Count = count;
+        }
+
+        public Animal Animal { get; private set; }
+        public int Count { get; private set; }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine($"\n{Animal.Name}\nКол-во: {Count}\nПол животных: {Animal.Gender}\nИздающиеся звуки: {Animal.Voice}\n");
+        }
+    }
+
+    class Animal
+    {
+        public Animal(string name, char gender, string voice)
         {
             Name = name;
-            Count = count;
             Gender = gender;
             Voice = voice;
         }
 
         public string Name { get; private set; }
-        public int Count { get; private set; }
-        public string Gender { get; private set; }
+        public char Gender { get; private set; }
         public string Voice { get; private set; }
-
-        public void ShowInfo()
-        {
-            Console.WriteLine($"\n{Name}\nКол-во: {Count}\nПол животных: {Gender}\nИздающиеся звуки: {Voice}\n");
-        }
     }
 }
