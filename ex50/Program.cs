@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace ex50
 {
@@ -15,8 +16,8 @@ namespace ex50
             while (timeInZoo < workTimeZoo)
             {
                 Console.WriteLine("Зоопарк\n");
-                zoo.ShowAllCages(); 
-                
+                zoo.ShowAllCages();
+
                 zoo.TryFindCage(out Cage requiredCage);
 
                 if (requiredCage != null)
@@ -46,25 +47,46 @@ namespace ex50
             _animals = new List<Animal>
             {
                 new Animal("ЛЕВ", '♂', "РЁВ"),
-                new Animal("СЛОН", '♀', "ТРУБЛЕНИЕ"),
-                new Animal("ОРЕЛ", '♀', "ЗВОНКИЙ КЛЁКОТ"),
-                new Animal("ОЛЕНЬ", '♂', "МЫЧАНИЕ")
+                new Animal("ЛЬВИЦА", '♀', "РЁВ"),
+                new Animal("СЛОН", '♂', "ТРУБЛЕНИЕ"),
+                new Animal("СЛОНИХА", '♀', "ТРУБЛЕНИЕ"),
+                new Animal("ОРЕЛ", '♂', "ЗВОНКИЙ КЛЁКОТ"),
+                new Animal("ОРЛИЦА", '♀', "ЗВОНКИЙ КЛЁКОТ"),
+                new Animal("ОЛЕНЬ", '♂', "МЫЧАНИЕ"),
+                new Animal("ОЛЕНИХА", '♀', "МЫЧАНИЕ"),
             };
 
             _cages = new List<Cage>
             {
-                new Cage(_animals[0], 4),
-                new Cage(_animals[1], 10),
-                new Cage(_animals[2], 6),
-                new Cage(_animals[3], 2)
+                new Cage(FillCage(_animals[0], 2, _animals[1], 2), "ЛЬВЫ"),
+                new Cage(FillCage(_animals[2], 1, _animals[3], 1), "СЛОНЫ"),
+                new Cage(FillCage(_animals[4], 5, _animals[5], 3), "ОРЛЫ"),
+                new Cage(FillCage(_animals[6], 2, _animals[6], 4), "ОЛЕНИ"),
             };
+        }
+
+        public List<Animal> FillCage(Animal animalMale, int countMales, Animal animalFemale, int countFemales)
+        {
+            List<Animal> animalsInCage = new List<Animal>();
+
+            for (int i = 0; i < countMales; i++)
+            {
+                animalsInCage.Add(animalMale);
+            }
+
+            for (int i = 0; i < countFemales; i++)
+            {
+                animalsInCage.Add(animalFemale);
+            }
+
+            return animalsInCage;
         }
 
         public void ShowAllCages()
         {
             foreach (Cage cage in _cages)
             {
-                Console.WriteLine($"|{cage.Animal.Name}|\n");
+                Console.WriteLine($"|{cage.Name}|\n");
             }
         }
 
@@ -75,7 +97,7 @@ namespace ex50
 
             foreach (Cage cage in _cages)
             {
-                if (cage.Animal.Name == name.ToUpper())
+                if (cage.Name == name.ToUpper())
                 {
                     requiredCage = cage;
                     return true;
@@ -90,18 +112,22 @@ namespace ex50
 
     class Cage
     {
-        public Cage(Animal animal, int count)
+        private List<Animal> _animalsInCage = new List<Animal>();
+
+        public Cage(List<Animal> animals, string name)
         {
-            Animal = animal;
-            Count = count;
+            _animalsInCage.AddRange(animals);
+            Name = name;
         }
 
-        public Animal Animal { get; private set; }
-        public int Count { get; private set; }
+        public string Name { get; private set; }
 
         public void ShowInfo()
         {
-            Console.WriteLine($"\n{Animal.Name}\nКол-во: {Count}\nПол животных: {Animal.Gender}\nИздающиеся звуки: {Animal.Voice}\n");
+            foreach (Animal animal in _animalsInCage)
+            {
+                Console.WriteLine($"\n{animal.Name}\nПол животного: {animal.Gender}\nИздающиеся звуки: {animal.Voice}\n");
+            }
         }
     }
 
